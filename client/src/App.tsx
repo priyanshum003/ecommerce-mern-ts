@@ -7,7 +7,7 @@ import ProtectedRoute from './components/routes/ProtectedRoute';
 import PublicRoute from './components/routes/PublicRoute';
 import AdminRoute from './components/routes/AdminRoute';
 import Loader from './components/common/Loader'; // Import Loader
-import { useGetMeQuery } from './redux/reducers/user.api';
+import { useGetMeQuery } from './redux/api/user.api';
 import { userExists, userNotExists } from './redux/reducers/user.reducer';
 import { AppDispatch, RootState } from './redux/store';
 
@@ -31,7 +31,7 @@ const SearchPage = lazy(() => import('./pages/SearchPage'));
 
 // Lazy load admin components
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
-const AdminProducts = lazy(() => import('./pages/admin/Products'));
+const AdminProducts = lazy(() => import('./pages/admin/AdminProducts'));
 const AdminCustomers = lazy(() => import('./pages/admin/AdminCustomers'));
 const AdminTransactions = lazy(() => import('./pages/admin/AdminTransactions'));
 const AdminOrders = lazy(() => import('./pages/admin/AdminOrders'));

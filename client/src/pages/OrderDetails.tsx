@@ -1,13 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { useOrderDetailsQuery } from '../redux/api/order.api';
-import { RootState } from '../redux/store';
 import BackButton from '../components/common/BackBtn';
+import { useOrderDetailsQuery } from '../redux/api/order.api';
 
 const OrderDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const { user } = useSelector((state: RootState) => state.user);
     const { data, isLoading, isError } = useOrderDetailsQuery(id!);
 
     if (isLoading) {

@@ -1,14 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { useMyOrdersQuery } from '../redux/api/order.api';
-import { RootState } from '../redux/store';
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../components/common/BackBtn';
+import { useMyOrdersQuery } from '../redux/api/order.api';
 
 const MyOrders: React.FC = () => {
     const navigate = useNavigate();
 
-    const { user } = useSelector((state: RootState) => state.user);
     const { data, isLoading, isError } = useMyOrdersQuery('');
 
     if (isLoading) {

@@ -6,7 +6,7 @@ import { RiServiceFill } from "react-icons/ri";
 const Banner: React.FC = () => {
     return (
         // Container for the banner section
-        <section className="bg-blue-100 py-8 rounded-md">
+        <section className="container bg-blue-100 py-8 rounded-md">
             <div className="container mx-auto flex flex-col md:flex-row justify-around items-center space-y-4 md:space-y-0">
                 {/* Free Delivery Section */}
                 <div className="flex flex-col items-center text-center">

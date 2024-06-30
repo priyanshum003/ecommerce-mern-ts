@@ -47,7 +47,7 @@ const AdminAddProduct: React.FC = () => {
         }
 
         try {
-            const response = await newProduct({ formData: productFormData }).unwrap();
+            await newProduct({ formData: productFormData }).unwrap();
             notify('Product added successfully', 'success');
             navigate('/admin/products');
         } catch (err) {

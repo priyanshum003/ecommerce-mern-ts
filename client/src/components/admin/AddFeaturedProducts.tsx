@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAllProductsQuery, useFeatureProductMutation } from '../../redux/api/product.api';
 
 interface AddFeaturedProductModalProps {
@@ -12,7 +12,7 @@ const AddFeaturedProductModal: React.FC<AddFeaturedProductModalProps> = ({
     featuredProducts,
     setFeaturedProducts,
 }) => {
-    const { data: allProductsData, isLoading: isAllProductsLoading } = useAllProductsQuery('');
+    const { data: allProductsData, isLoading: isAllProductsLoading } = useAllProductsQuery({ page: 1, limit: 10, sortBy: { id: '', desc: false } });
     const [featureProduct] = useFeatureProductMutation();
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -26,7 +26,7 @@ const AddFeaturedProductModal: React.FC<AddFeaturedProductModalProps> = ({
 
     const handleAddFeature = async (productId: string) => {
         try {
-            await featureProduct({ productId, featured: true }).unwrap();
+            await featureProduct({ productId }).unwrap();
             const updatedProduct = allProductsData.products.find(product => product._id === productId);
             if (updatedProduct) {
                 setFeaturedProducts([...featuredProducts, { ...updatedProduct, featured: true }]);

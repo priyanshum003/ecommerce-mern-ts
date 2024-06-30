@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch } from 'react-redux';
 import { auth } from '../../firebaseConfig';
-import { useSignupUserMutation } from '../../redux/reducers/user.api';
+import { useSignupUserMutation } from '../../redux/api/user.api';
 import { userExists } from '../../redux/reducers/user.reducer';
 import { AppDispatch } from '../../redux/store';
 import { notify } from '../../utils/util';

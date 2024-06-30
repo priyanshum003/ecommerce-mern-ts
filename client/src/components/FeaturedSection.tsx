@@ -7,7 +7,7 @@ import { useGetAllFeaturedProductsQuery } from '../redux/api/product.api';
 const FeaturedSection: React.FC = () => {
 
     // Fetch all featured products using a Redux API hook
-    const { data, isError, isLoading } = useGetAllFeaturedProductsQuery('');
+    const { data } = useGetAllFeaturedProductsQuery('');
     const products = data?.products || [];
 
     return (

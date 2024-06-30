@@ -1,12 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { AllOrdersResponse, MessageResponse, NewOrderRequest, OrderDetailsResponse, UpdateOrderRequest } from "../../types/api-types";
 
-const server = import.meta.env.VITE_SERVER_URL;
-
 export const orderApi = createApi({
     reducerPath: "orderApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: `${server}/api/v1/orders/`,
+        baseUrl: `/api/v1/orders/`,
         credentials: 'include',
     }),
     tagTypes: ['orders'],

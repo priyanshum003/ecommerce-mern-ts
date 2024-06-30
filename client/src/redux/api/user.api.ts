@@ -1,12 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { UserLoginRequest, UserLoginResponse, UserRegisterRequest, UserResponse } from '../../types/api-types';
 
-const server = import.meta.env.VITE_SERVER_URL;
-
 export const userApi = createApi({
     reducerPath: 'userAPI',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${server}/api/v1/auth/`,
+        baseUrl: `/api/v1/auth/`,
         credentials: 'include',
     }),
     tagTypes: ['User'],

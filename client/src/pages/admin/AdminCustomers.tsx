@@ -1,6 +1,6 @@
 import React from 'react';
-import { useTable } from 'react-table';
-import { useGetAllUsersQuery } from '../../redux/reducers/user.api'; // Adjust the import path according to your project structure
+import { Column, useTable } from 'react-table';
+import { useGetAllUsersQuery } from '../../redux/api/user.api'; // Adjust the import path according to your project structure
 import { User as UserType } from '../../types/api-types'; // Adjust the import path according to your project structure
 import dayjs from 'dayjs';
 
@@ -10,7 +10,7 @@ const AdminCustomers: React.FC = () => {
     const users: UserType[] = data?.users || [];
 
     // Define table columns
-    const columns = React.useMemo(
+    const columns: Column<UserType>[] = React.useMemo(
         () => [
             {
                 Header: 'Profile',
@@ -62,26 +62,40 @@ const AdminCustomers: React.FC = () => {
                 <div className="overflow-x-auto">
                     <table {...getTableProps()} className="min-w-full bg-white border border-gray-300 rounded-lg">
                         <thead className="bg-gray-100">
-                            {headerGroups.map(headerGroup => (
-                                <tr {...headerGroup.getHeaderGroupProps()}>
-                                    {headerGroup.headers.map(column => (
-                                        <th {...column.getHeaderProps()} className="py-3 px-4 border-b border-gray-300 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">
-                                            {column.render('Header')}
-                                        </th>
-                                    ))}
-                                </tr>
-                            ))}
+                            {headerGroups.map((headerGroup, headerGroupIndex) => {
+                                const { key: headerGroupKey, ...headerGroupProps } = headerGroup.getHeaderGroupProps();
+                                return (
+                                    <tr key={headerGroupIndex} {...headerGroupProps}>
+                                        {headerGroup.headers.map((column, columnIndex) => {
+                                            const { key: columnKey, ...columnProps } = column.getHeaderProps();
+                                            return (
+                                                <th
+                                                    key={columnIndex}
+                                                    {...columnProps}
+                                                    className="py-3 px-4 border-b border-gray-300 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider"
+                                                >
+                                                    {column.render('Header')}
+                                                </th>
+                                            );
+                                        })}
+                                    </tr>
+                                );
+                            })}
                         </thead>
                         <tbody {...getTableBodyProps()}>
-                            {rows.map(row => {
+                            {rows.map((row, rowIndex) => {
                                 prepareRow(row);
+                                const { key: rowKey, ...rowProps } = row.getRowProps();
                                 return (
-                                    <tr {...row.getRowProps()} className="hover:bg-gray-50">
-                                        {row.cells.map(cell => (
-                                            <td {...cell.getCellProps()} className="py-3 px-4 border-b border-gray-300 text-sm">
-                                                {cell.render('Cell')}
-                                            </td>
-                                        ))}
+                                    <tr key={rowIndex} {...rowProps} className="hover:bg-gray-50">
+                                        {row.cells.map((cell, cellIndex) => {
+                                            const { key: cellKey, ...cellProps } = cell.getCellProps();
+                                            return (
+                                                <td key={cellIndex} {...cellProps} className="py-3 px-4 border-b border-gray-300 text-sm">
+                                                    {cell.render('Cell')}
+                                                </td>
+                                            );
+                                        })}
                                     </tr>
                                 );
                             })}

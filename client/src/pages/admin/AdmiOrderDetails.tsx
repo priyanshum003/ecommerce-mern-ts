@@ -6,7 +6,7 @@ import { notify } from '../../utils/util';
 
 const AdminOrderDetails: React.FC = () => {
     const { orderId } = useParams<{ orderId: string }>();
-    const { data, isLoading, isError, error, refetch } = useOrderDetailsQuery(orderId!);
+    const { data, isLoading, isError, refetch } = useOrderDetailsQuery(orderId!);
     const [updateOrderStatus] = useUpdateOrderStatusMutation();
     const [deleteOrder] = useDeleteOrderMutation();
     const navigate = useNavigate();
@@ -31,7 +31,7 @@ const AdminOrderDetails: React.FC = () => {
         }
     };
 
-    if (isError) return <p>Error loading order details: {error?.message}</p>;
+    if (isError) return <p>Error loading order details: </p>;
     if (isLoading) return <p>Loading order details...</p>;
 
     return (

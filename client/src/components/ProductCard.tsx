@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, incrementCartItem, decrementCartItem } from '../redux/reducers/cart.reducer';
 import { RootState } from '../redux/store';
@@ -43,8 +43,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     navigate('/cart');
   };
 
+  const handleNavigateToProduct = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    navigate(`/product/${product._id}`);
+  };
+
   return (
-    <Link to={`/product/${product._id}`} className="block">
+    <div onClick={handleNavigateToProduct} className="block cursor-pointer">
       <div className="border rounded-lg p-4 flex flex-col justify-between h-full shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-white transform hover:-translate-y-2">
         {/* Product image */}
         <div className="flex-shrink-0 mb-4">
@@ -82,12 +87,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             Go to Cart
           </button>
         ) : (
-          <Link to={`/product/${product._id}`} className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors duration-300 mt-2 text-center">
+          <button onClick={handleNavigateToProduct} className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors duration-300 mt-2 text-center">
             View Details
-          </Link>
+          </button>
         )}
       </div>
-    </Link>
+    </div>
   );
 };
 

@@ -1,6 +1,12 @@
 # Firebase service account key
 firebaseServiceAccountKey.json
 
+#build 
+build/
+dist/
+client/
+client/build/
+client/dist/
 
 # Node modules
 node_modules/

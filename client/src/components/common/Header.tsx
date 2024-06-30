@@ -4,7 +4,7 @@ import { FaBars, FaBoxOpen, FaBox, FaHome, FaSearch, FaShoppingCart, FaTimes, Fa
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../../firebaseConfig';
-import { useLogoutUserMutation } from '../../redux/reducers/user.api';
+import { useLogoutUserMutation } from '../../redux/api/user.api';
 import { userNotExists } from '../../redux/reducers/user.reducer';
 import { RootState } from '../../redux/store';
 import { notify } from '../../utils/util';

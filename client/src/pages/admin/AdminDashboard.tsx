@@ -6,28 +6,10 @@ import { Link } from 'react-router-dom';
 import { useTable, Column } from 'react-table';
 import { useGetStatsQuery } from '../../redux/api/stats.api';
 
-interface Order {
-    _id: string;
-    createdAt: string;
-    status: string;
-    orderItems: any[];
-    total: number;
-}
-
-interface Stats {
-    totalRevenue: number;
-    revenueByMonth: Record<string, number>;
-    userGenderDemographic: { _id: string; count: number }[];
-    totalOrders: number;
-    totalCoupons: number;
-    totalProducts: number;
-    bestSellingProducts: { productId: string; quantity: number }[];
-    latestOrders: Order[];
-}
 
 const AdminDashboard: React.FC = () => {
     const { data: statsData, isLoading, isError } = useGetStatsQuery();
-    const stats: Stats | undefined = statsData?.stats;
+    const stats = statsData?.stats;
 
     // Memoize table data and columns to avoid re-calculating on every render
     const data = React.useMemo(() => {
@@ -37,7 +19,7 @@ const AdminDashboard: React.FC = () => {
         })) || [];
     }, [stats]);
 
-    const columns: Column<Order>[] = React.useMemo(() => [
+    const columns: Column[] = React.useMemo(() => [
         { Header: 'Order ID', accessor: '_id' },
         { Header: 'Date', accessor: 'createdAt', Cell: ({ value }) => dayjs(value).format('DD MMM YYYY') },
         { Header: 'Status', accessor: 'status' },

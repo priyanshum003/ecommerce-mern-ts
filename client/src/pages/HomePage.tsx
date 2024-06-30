@@ -5,38 +5,32 @@ import { useLatestProductsQuery } from '../redux/api/product.api';
 import Banner from '../components/common/Banner';
 import CustomerReviews from '../components/common/CustomerReviews';
 
-// Define the HomePage component
 const HomePage: React.FC = () => {
-
-    // Fetch latest products using a Redux API hook
     const { data: productData, isLoading: productLoading, isError: productError } = useLatestProductsQuery('');
 
-    // Extract products from the fetched data
     const products = productData?.products || [];
 
-    // Handle loading state
     if (productLoading) {
-        return <p>Loading...</p>;
+        return <p className="text-center mt-10 text-lg text-blue-500">Loading...</p>;
     }
 
-    // Handle error state
     if (productError) {
-        return <p>Error loading products or categories</p>;
+        return <div className="flex items-center justify-center min-h-[80vh] text-lg text-red-500">Error loading products.</div>;
+    }
+
+    if (products.length === 0) {
+        return <div className="text-center min-h-[80%] text-lg text-yellow-500">No products available.</div>;
     }
 
     return (
-        <div className='min-h-screen'>
+        <div className='min-h-screen flex flex-col items-center'>
 
-            {/* Hero Section */}
             <FeaturedSection />
 
-            {/* Popular Products Section */}
             <PopularProducts products={products} />
 
-            {/* Banner Section */}
             <Banner />
 
-            {/* Customer Reviews Section */}
             <CustomerReviews />
         </div>
     );

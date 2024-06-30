@@ -1,7 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const server = import.meta.env.VITE_SERVER_URL;
-
 export interface CreatePaymentIntentRequest {
   amount: number;
 }
@@ -15,7 +13,7 @@ export interface CreatePaymentIntentResponse {
 export const paymentApi = createApi({
   reducerPath: 'paymentApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${server}/api/v1/payments`,
+    baseUrl: `/api/v1/payments`,
     credentials: 'include',
   }),
   endpoints: (builder) => ({

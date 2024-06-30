@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { FaEdit, FaPlus, FaArrowUp, FaArrowDown, FaFileCsv } from 'react-icons/fa';
+import Papa from 'papaparse';
+import React, { useEffect, useMemo, useState } from 'react';
+import { FaArrowDown, FaArrowUp, FaEdit, FaFileCsv, FaPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { useTable, useSortBy, Column } from 'react-table';
+import { Cell, Column, ColumnInstance, HeaderGroup, Row, useSortBy, useTable } from 'react-table';
+import Pagination from '../../components/common/Pagination'; // Assuming you have a Pagination component
+import SkeletonLoader from '../../components/common/SkeletonLoader';
 import { useAllProductsQuery } from '../../redux/api/product.api';
 import { CustomError, Product } from '../../types/api-types';
 import { notify } from '../../utils/util';
-import SkeletonLoader from '../../components/common/SkeletonLoader';
-import Pagination from '../../components/common/Pagination'; // Assuming you have a Pagination component
-import { CSVLink } from 'react-csv';
-import Papa from 'papaparse';
 
 const AdminProducts: React.FC = () => {
   const navigate = useNavigate();
@@ -31,32 +30,35 @@ const AdminProducts: React.FC = () => {
     }
   }, [isError, error]);
 
-  const columns = React.useMemo<Column<Product>[]>(() => [
-    {
-      Header: 'Image',
-      accessor: 'photo',
-      Cell: ({ value }: { value: string }) => (
-        <img src={value} alt="product" className="w-16 h-16 object-cover rounded" />
-      ),
-      disableSortBy: true, // Disable sorting for Image column
-    },
-    { Header: 'Product', accessor: 'name' },
-    { Header: 'Category', accessor: 'category' },
-    { Header: 'Stock', accessor: 'stock' },
-    { Header: 'Price', accessor: 'price' },
-    {
-      Header: 'Actions',
-      Cell: ({ row }: { row: any }) => (
-        <button
-          onClick={() => navigate(`/admin/products/${row.original._id}`)}
-          className="text-blue-600 hover:text-blue-800 flex items-center"
-        >
-          <FaEdit className="mr-2" /> Manage
-        </button>
-      ),
-      disableSortBy: true, // Disable sorting for Actions column
-    },
-  ], [navigate]);
+  const columns = useMemo<Column<Product>[]>(
+    () => [
+      {
+        Header: 'Image',
+        accessor: 'photo',
+        Cell: ({ value }: { value: string }) => (
+          <img src={value} alt="product" className="w-16 h-16 object-cover rounded" />
+        ),
+        disableSortBy: true, // Disable sorting for Image column
+      },
+      { Header: 'Product', accessor: 'name' },
+      { Header: 'Category', accessor: 'category' },
+      { Header: 'Stock', accessor: 'stock' },
+      { Header: 'Price', accessor: 'price' },
+      {
+        Header: 'Actions',
+        Cell: ({ row }: { row: Row<Product> }) => (
+          <button
+            onClick={() => navigate(`/admin/products/${row.original._id}`)}
+            className="text-blue-600 hover:text-blue-800 flex items-center"
+          >
+            <FaEdit className="mr-2" /> Manage
+          </button>
+        ),
+        disableSortBy: true, // Disable sorting for Actions column
+      },
+    ],
+    [navigate]
+  );
 
   const {
     getTableProps,
@@ -64,7 +66,7 @@ const AdminProducts: React.FC = () => {
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({ columns, data }, useSortBy);
+  } = useTable<Product>({ columns, data }, useSortBy);
 
   const handleSort = (columnId: string) => {
     setSortBy((prevSortBy) => {
@@ -140,42 +142,54 @@ const AdminProducts: React.FC = () => {
         <div className="overflow-x-auto">
           <table {...getTableProps()} className="w-full text-left border-collapse">
             <thead className="bg-gray-100">
-              {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column) => (
-                    <th
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                      className={`p-2 border-b cursor-pointer ${column.id === sortBy.id ? 'bg-blue-50' : ''}`}
-                      onClick={() => !column.disableSortBy && handleSort(column.id)}
-                    >
-                      <div className="flex items-center">
-                        {column.render('Header')}
-                        {column.id === sortBy.id ? (
-                          sortBy.desc ? (
-                            <FaArrowDown className="ml-2 text-blue-600" />
-                          ) : (
-                            <FaArrowUp className="ml-2 text-blue-600" />
-                          )
-                        ) : (
-                          ''
-                        )}
-                      </div>
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-              {rows.map((row) => {
-                prepareRow(row);
-                const { key, ...rowProps } = row.getRowProps();
+              {headerGroups.map((headerGroup: HeaderGroup<Product>, headerGroupIndex) => {
+                const { key: headerGroupKey, ...headerGroupProps } = headerGroup.getHeaderGroupProps();
                 return (
-                  <tr key={key} {...rowProps} className="hover:bg-gray-50">
-                    {row.cells.map((cell) => (
-                      <td {...cell.getCellProps()} className="p-2 border-b">
-                        {cell.render('Cell')}
-                      </td>
-                    ))}
+                  <tr key={headerGroupIndex} {...headerGroupProps}>
+                    {headerGroup.headers.map((column, columnIndex) => {
+                      const colInstance = column as ColumnInstance<Product>;
+                      const { key: columnKey, ...restHeaderProps } = colInstance.getHeaderProps(colInstance.getSortByToggleProps());
+                      return (
+                        <th
+                          key={columnIndex} // Use index as key
+                          {...restHeaderProps} // Spread the rest of the props
+                          className={`p-2 border-b cursor-pointer ${colInstance.isSorted ? 'bg-blue-50' : ''}`}
+                          onClick={() => !colInstance.disableSortBy && handleSort(colInstance.id)}
+                        >
+                          <div className="flex items-center">
+                            {colInstance.render('Header')}
+                            {colInstance.isSorted ? (
+                              colInstance.isSortedDesc ? (
+                                <FaArrowDown className="ml-2 text-blue-600" />
+                              ) : (
+                                <FaArrowUp className="ml-2 text-blue-600" />
+                              )
+                            ) : (
+                              ''
+                            )}
+                          </div>
+                        </th>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </thead>
+
+            <tbody {...getTableBodyProps()}>
+              {rows.map((row: Row<Product>, rowIndex) => {
+                prepareRow(row);
+                const { key, ...restRowProps } = row.getRowProps();
+                return (
+                  <tr key={rowIndex} {...restRowProps} className="hover:bg-gray-50">
+                    {row.cells.map((cell: Cell<Product>, cellIndex) => {
+                      const { key: cellKey, ...restCellProps } = cell.getCellProps();
+                      return (
+                        <td key={cellIndex} {...restCellProps} className="p-2 border-b">
+                          {cell.render('Cell')}
+                        </td>
+                      );
+                    })}
                   </tr>
                 );
               })}

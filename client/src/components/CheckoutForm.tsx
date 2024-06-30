@@ -99,7 +99,7 @@ const CheckoutForm: React.FC = () => {
       const orderResponse = await newOrder(orderData);
       console.log(orderResponse, "orderResponse");
       if (orderResponse.error) {
-        notify(orderResponse.error.message, 'error');
+        notify(`${orderResponse.error! || 'Failed to place order'}` as string, 'error');
         setIsProcessing(false);
       } else {
         dispatch(resetCart());

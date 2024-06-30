@@ -1,11 +1,11 @@
-import React from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { FaTachometerAlt, FaBox, FaUsers, FaMoneyCheckAlt, FaClipboardList, FaSignOutAlt, FaCog, FaTimes } from 'react-icons/fa';
 import { signOut } from 'firebase/auth';
-import { useLogoutUserMutation } from '../../redux/reducers/user.api';
-import { auth } from '../../firebaseConfig';
-import { userNotExists } from '../../redux/reducers/user.reducer';
+import React from 'react';
+import { FaBox, FaClipboardList, FaMoneyCheckAlt, FaSignOutAlt, FaTachometerAlt, FaTimes, FaUsers } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { auth } from '../../firebaseConfig';
+import { useLogoutUserMutation } from '../../redux/api/user.api';
+import { userNotExists } from '../../redux/reducers/user.reducer';
 import { notify } from '../../utils/util';
 
 interface AdminSidebarProps {
@@ -54,32 +54,68 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isSidebarOpen, toggleSideba
         </Link>
         {/* Navigation Links */}
         <nav>
-          <NavLink to="/admin/dashboard" className="flex items-center p-2 my-4 text-gray-600 hover:text-blue-600" onClick={toggleSidebar}>
+          <NavLink
+            to="/admin/dashboard"
+            className={({ isActive }) =>
+              isActive ? 'flex items-center p-2 my-4 text-blue-600 font-bold' : 'flex items-center p-2 my-4 text-gray-600 hover:text-blue-600'
+            }
+            onClick={toggleSidebar}
+          >
             <FaTachometerAlt className="mr-2" />
             Dashboard
           </NavLink>
 
-          <NavLink to="/admin/products" className="flex items-center p-2 my-4 text-gray-600 hover:text-blue-600" onClick={toggleSidebar}>
+          <NavLink
+            to="/admin/products"
+            className={({ isActive }) =>
+              isActive ? 'flex items-center p-2 my-4 text-blue-600 font-bold' : 'flex items-center p-2 my-4 text-gray-600 hover:text-blue-600'
+            }
+            onClick={toggleSidebar}
+          >
             <FaBox className="mr-2" />
             Products
           </NavLink>
 
-          <NavLink to="/admin/featured" className="flex items-center p-2 my-4 text-gray-600 hover:text-blue-600" onClick={toggleSidebar}>
+          <NavLink
+            to="/admin/featured"
+            className={({ isActive }) =>
+              isActive ? 'flex items-center p-2 my-4 text-blue-600 font-bold' : 'flex items-center p-2 my-4 text-gray-600 hover:text-blue-600'
+            }
+            onClick={toggleSidebar}
+          >
             <FaBox className="mr-2" />
             Featured Products
           </NavLink>
 
-          <NavLink to="/admin/customers" className="flex items-center p-2 my-4 text-gray-600 hover:text-blue-600" onClick={toggleSidebar}>
+          <NavLink
+            to="/admin/customers"
+            className={({ isActive }) =>
+              isActive ? 'flex items-center p-2 my-4 text-blue-600 font-bold' : 'flex items-center p-2 my-4 text-gray-600 hover:text-blue-600'
+            }
+            onClick={toggleSidebar}
+          >
             <FaUsers className="mr-2" />
             Customers
           </NavLink>
 
-          <NavLink to="/admin/coupons" className="flex items-center p-2 my-4 text-gray-600 hover:text-blue-600" onClick={toggleSidebar}>
+          <NavLink
+            to="/admin/coupons"
+            className={({ isActive }) =>
+              isActive ? 'flex items-center p-2 my-4 text-blue-600 font-bold' : 'flex items-center p-2 my-4 text-gray-600 hover:text-blue-600'
+            }
+            onClick={toggleSidebar}
+          >
             <FaMoneyCheckAlt className="mr-2" />
             Coupons
           </NavLink>
 
-          <NavLink to="/admin/orders" className="flex items-center p-2 my-4 text-gray-600 hover:text-blue-600" onClick={toggleSidebar}>
+          <NavLink
+            to="/admin/orders"
+            className={({ isActive }) =>
+              isActive ? 'flex items-center p-2 my-4 text-blue-600 font-bold' : 'flex items-center p-2 my-4 text-gray-600 hover:text-blue-600'
+            }
+            onClick={toggleSidebar}
+          >
             <FaClipboardList className="mr-2" />
             Orders
           </NavLink>

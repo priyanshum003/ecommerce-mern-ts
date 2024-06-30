@@ -19,7 +19,7 @@ const ProductsPage: React.FC = () => {
     }, [page]);
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 min-h-[80vh]">
             <h1 className="text-3xl font-bold text-center mb-8">All Products</h1>
             <div className="w-full p-4">
                 {isLoading ? (

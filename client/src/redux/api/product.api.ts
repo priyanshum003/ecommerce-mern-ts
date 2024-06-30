@@ -13,12 +13,11 @@ import {
     UpdateProductRequest
 } from "../../types/api-types";
 
-const server = import.meta.env.VITE_SERVER_URL;
 
 export const productApi = createApi({
     reducerPath: 'productAPI',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${server}/api/v1/products`,
+        baseUrl: `/api/v1/products`,
         credentials: 'include',
     }),
     tagTypes: ['Product'],

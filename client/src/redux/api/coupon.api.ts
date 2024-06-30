@@ -1,12 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { AllCouponsResponse, ApplyCouponRequest, ApplyCouponResponse, DeleteCouponRequest, MessageResponse, NewCouponRequest } from '../../types/api-types';
+import { AllCouponsResponse, ApplyCouponRequest, ApplyCouponResponse, MessageResponse, NewCouponRequest } from '../../types/api-types';
 
-const server = import.meta.env.VITE_SERVER_URL;
 
 export const couponApi = createApi({
     reducerPath: 'couponApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${server}/api/v1/coupons/`,
+        baseUrl: `/api/v1/coupons/`,
         credentials: 'include',
     }),
     endpoints: (builder) => ({

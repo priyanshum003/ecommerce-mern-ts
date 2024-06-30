@@ -20,17 +20,9 @@ const AdminLayout: React.FC = () => {
       <div className="fixed z-40 shadow-2xl border">
         <AdminSidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       </div>
-
       <div className="flex-1 p-10 transition-all duration-300 overflow-y-auto md:pl-72 pr-10">
         <Outlet />
       </div>
-      {/* {isSidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black opacity-50 md:hidden"
-          onClick={toggleSidebar}
-          style={{ display: isSidebarOpen ? 'block' : 'none' }}
-        ></div>
-      )} */}
     </div>
   );
 };

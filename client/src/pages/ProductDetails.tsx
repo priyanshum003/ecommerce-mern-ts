@@ -1,11 +1,11 @@
 import React from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useProductDetailsQuery } from '../redux/api/product.api';
-import { addToCart, incrementCartItem, decrementCartItem } from '../redux/reducers/cart.reducer';
-import { RootState } from '../redux/store';
-import Banner from '../components/common/Banner';
+import { useNavigate, useParams } from 'react-router-dom';
 import BackButton from '../components/common/BackBtn';
+import Banner from '../components/common/Banner';
+import { useProductDetailsQuery } from '../redux/api/product.api';
+import { addToCart, decrementCartItem, incrementCartItem } from '../redux/reducers/cart.reducer';
+import { RootState } from '../redux/store';
 
 const SingleProduct: React.FC = () => {
     const { productId } = useParams<{ productId: string }>();

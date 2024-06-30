@@ -14,7 +14,7 @@ const AdminManageProduct: React.FC = () => {
     const { data, isLoading, isError, error } = useProductDetailsQuery(productId!);
 
     // Destructuring the product object
-    const { photo, category, name, stock, price, featured, createdAt, updatedAt, description } = data?.product || {
+    const {  category, name, stock, price, featured, createdAt, updatedAt, description } = data?.product || {
         photo: "",
         category: "",
         name: "",

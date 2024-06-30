@@ -34,7 +34,7 @@ const ProductCategories: React.FC = () => {
   }
 
   if (categoryError) {
-    return <p>Error loading products or categories</p>;
+    return <p >Error loading products or categories</p>;
   }
 
   // Extract categories from the API response

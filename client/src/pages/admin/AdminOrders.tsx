@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAllOrdersQuery } from '../../redux/api/order.api';
 import { Order } from '../../types/api-types'; // Adjust the import path according to your project structure
-import { useNavigate } from 'react-router-dom';
 
 const AdminOrders: React.FC = () => {
-    const { data, isLoading, isError, error, refetch } = useAllOrdersQuery('');
+    const { data, isLoading, isError } = useAllOrdersQuery('');
     const [orders, setOrders] = useState<Order[]>([]);
     const navigate = useNavigate();
 
@@ -15,7 +15,7 @@ const AdminOrders: React.FC = () => {
     }, [data]);
 
     if (isLoading) return <p>Loading orders...</p>;
-    if (isError) return <p>Error loading orders: {error?.message}</p>;
+    if (isError) return <p>Error loading orders</p>;
 
     const handleViewDetails = (orderId: string) => {
         navigate(`/admin/orders/${orderId}`);
